@@ -48,3 +48,7 @@ img:hover {
   justify-content: center;
   margin-top: 2%;
 }
+
+#next-question {
+  display: none;
+}

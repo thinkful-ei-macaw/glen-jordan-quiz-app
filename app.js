@@ -3,33 +3,33 @@
 /**
  * Example store structure
  */
+
 const store = {
   // 5 or more questions are required
-  questions: [
-    {
+  questions: [{
       question: "What does wubba lubba dub dub mean?",
-      answers: ['Please leave', 'I\‘m a genius’, ’Let\‘s Party’, ’I\‘m in great pain’],
-      correctAnswer: ‘Im in great pain’
+      answers: ['Please leave', 'I\'m a genius', 'Let\'s Party', 'I\'m in great pain'],
+      correctAnswer: 'I\'m in great pain'
     },
     {
-      question: ‘Name the song Rick uses to save the earth’,
-      answers: [‘Rock Hortz’, ‘Get Schwifty’, ‘Do the Bingortz’, ‘Stop, Drop, and Slitz’],
-      correctAnswer: ‘Get Schwifty’
+      question: ' Name the song Rick uses to save the earth',
+      answers: ['Rock Hortz', 'Get Schwifty', 'Do the Bingortz', 'Stop, Drop, and Slitz'],
+      correctAnswer: 'Get Schwifty'
     },
     {
-      question: ‘Which implement does Rick use to travel between dimensions?’,
-      answers: [‘Rift Ray’, ‘Jump Laser’, ‘Interdimensional Ray’, ‘Portal Gun’],
-      correctAnswer: ‘Portal Gun’
+      question: 'Which implement does Rick use to travel between dimensions?',
+      answers: ['Rift Ray', 'Jump Laser', 'Interdimensional Ray', 'Portal Gun'],
+      correctAnswer: 'Portal Gun'
     },
     {
-      question: ‘Morty does accidentally have a child who is half alien. What species is his non-human half?’,
-      answers: [‘Smarkian’, ‘Cromulan’, ‘Gazorpazorp’,‘Gromflomite’],
-      correctAnswer: ‘Gazorpazorp’
+      question: 'Morty does accidentally have a child who is half alien. What species is his non-human half?',
+      answers: ['Smarkian', 'Cromulan', 'Gazorpazorp', 'Gromflomite'],
+      correctAnswer: 'Gazorpazorp'
     },
     {
-      question: ’What is Scary Terry\‘s catchphrase?’,
-      answers: [’I\‘m your worst nightmare!’, ‘Welcome to your nightmare, bitch!’, ‘This is your nightmare!’, ’You can run, but you\‘ll still die!’ ’],
-      correctAnswer: ‘Welcome to your nightmare, bitch!’
+      question: 'What is Scary Terry\'s catchphrase?',
+      answers: ['I\'m your worst nightmare!', 'Welcome to your nightmare, bitch!', 'This is your nightmare!', 'You can run, but you\'ll still die!'],
+      correctAnswer: 'Welcome to your nightmare, bitch!'
     }
   ],
   questionNumber: 0,
@@ -39,58 +39,78 @@ const store = {
 };
 
 function clickMe() {
-  $('#js-start-btn').click(function() {
+  $('#js-start-btn').click(function () {
     $(location).attr('href', renderQuestion);
   });
 }
 
-function questions() {
-  const questionArr = store['questions'];
+function getCurrentQuestion() {
+  const questionArr = store.questions;
   console.log(questionArr);
   let currentQuestion = questionArr[store.questionNumber];
   console.log(currentQuestion);
   return currentQuestion;
 }
 
-function renderQuestion() {
-  let data = questions();
-  $('main').html(
-    `<section>${data.question}</section>
-    <form>  
-      ${data.answers
-        .map((e, index) => {
-          return `<input id="answer${index}" name="questionDisplay" type="radio" value="${e}">
-          <label for="answer${index}">${e}</label>`;
-        })
-        .join('')}
-        <button type="submit">Submit</button>
-    </form>`
-  );
+function generateQuestion(question) {
+  return `<section>${question.question}</section>
+      <form>  
+        ${question.answers
+          .map((e, index) => {
+            return `<input id="answer${index}" name="questionDisplay" type="radio" value="${e}">
+            <label for="answer${index}">${e}</label>`;
+          })
+          .join('')}
+          <button type="submit" id="submit-button">Submit</button>
+          <button type="button" id="next-question">Next</button>
+      </form>`
+}
 
-  $('form').submit(function(e) {
+function renderQuestion() {
+  let currentQuestion = getCurrentQuestion();
+  let html = generateQuestion(currentQuestion);
+  $('main').html(html);
+  
+}
+
+function registerListeners(){
+  $('main').on('submit', 'form', function (e) {
     e.preventDefault();
-    if ($('input:checked').val() === data.correctAnswer) {
+    let currentQuestion = getCurrentQuestion();
+    let userAnswer = $('input:checked').val()
+    console.log(currentQuestion.correctAnswer, userAnswer)
+    if (userAnswer === currentQuestion.correctAnswer) {
       store.score += 1;
+      $('main').append('correct')
     } else {
       store.wrong += 1;
+      $('main').append('incorrect')
     }
     store.questionNumber += 1;
-
-    renderQuestion();
-
+    $('#submit-button').hide()
+    $('#next-question').show()
     console.log(`correct answer ${store.score}`);
     console.log(`wrong answer ${store.wrong}`);
+
   });
+
+  $('main').on("click", "#next-question", function(e) {
+    e.preventDefault();
+    renderQuestion();
+  })
+  
 }
+
+
 
 function renderFirstPage() {
   $('main').html(`
-
-<header id="rick-intro">
-
-<h1>THE RICK AND MORTY QUIZ</h1>
-
-</header>
+  
+  <header id="rick-intro">
+  
+  <h1>THE RICK AND MORTY QUIZ</h1>
+  
+  </header>
 
 <div id="intro-page">
 
@@ -100,7 +120,7 @@ function renderFirstPage() {
 
 <div id="intro-info">
 <h3>
-It’s time to do some Rick and Morty trivia and only the Rickest of Ricks will be able to pass.
+It's time to do some Rick and Morty trivia and only the Rickest of Ricks will be able to pass.
 </h3>
 </div>
 
@@ -113,6 +133,7 @@ It’s time to do some Rick and Morty trivia and only the Rickest of Ricks will 
 `);
 }
 
+$(registerListeners);
 $(renderFirstPage);
 $(clickMe);
 
