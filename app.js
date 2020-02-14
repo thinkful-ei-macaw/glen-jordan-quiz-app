@@ -7,14 +7,29 @@ const store = {
   // 5 or more questions are required
   questions: [
     {
-      question: 'What color is broccoli?',
-      answers: ['red', 'orange', 'pink', 'green'],
-      correctAnswer: 'green'
+      question: "What does wubba lubba dub dub mean?",
+      answers: ['Please leave', 'I\‘m a genius’, ’Let\‘s Party’, ’I\‘m in great pain’],
+      correctAnswer: ‘Im in great pain’
     },
     {
-      question: 'What is the current year?',
-      answers: ['1970', '2015', '2019', '2005'],
-      correctAnswer: '2019'
+      question: ‘Name the song Rick uses to save the earth’,
+      answers: [‘Rock Hortz’, ‘Get Schwifty’, ‘Do the Bingortz’, ‘Stop, Drop, and Slitz’],
+      correctAnswer: ‘Get Schwifty’
+    },
+    {
+      question: ‘Which implement does Rick use to travel between dimensions?’,
+      answers: [‘Rift Ray’, ‘Jump Laser’, ‘Interdimensional Ray’, ‘Portal Gun’],
+      correctAnswer: ‘Portal Gun’
+    },
+    {
+      question: ‘Morty does accidentally have a child who is half alien. What species is his non-human half?’,
+      answers: [‘Smarkian’, ‘Cromulan’, ‘Gazorpazorp’,‘Gromflomite’],
+      correctAnswer: ‘Gazorpazorp’
+    },
+    {
+      question: ’What is Scary Terry\‘s catchphrase?’,
+      answers: [’I\‘m your worst nightmare!’, ‘Welcome to your nightmare, bitch!’, ‘This is your nightmare!’, ’You can run, but you\‘ll still die!’ ’],
+      correctAnswer: ‘Welcome to your nightmare, bitch!’
     }
   ],
   questionNumber: 0,
